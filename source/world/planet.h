@@ -24,6 +24,10 @@ struct PlanetDefinition
 	float ringOuterRadius = 0.0f;
 	float ringTilt = 0.0f;
 	glm::vec3 ringColor = glm::vec3(1.0f);
+
+	float longitudeOfAscendingNode = 0.0f;
+	float argumentOfPeriapsis = 0.0f;
+	float meanAnomalyAtEpoch = 0.0f;
 };
 
 class Planet
@@ -32,6 +36,11 @@ public:
 	explicit Planet(PlanetDefinition definition);
 
 	void update(float deltaTime);
+	void setOrbitElements(
+		float longitudeOfAscendingNode,
+		float argumentOfPeriapsis,
+		float meanAnomalyAtEpoch
+	);
 
 	glm::mat4 modelMatrix() const;
 	glm::mat4 orbitPathModelMatrix() const;
@@ -41,6 +50,7 @@ public:
 	float radius() const;
 	glm::vec3 position() const;
 	float orbitRadius() const;
+	float orbitSpeed() const;
 	bool emitsLight() const;
 	bool hasRing() const;
 	glm::mat4 ringModelMatrix() const;

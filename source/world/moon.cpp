@@ -6,6 +6,45 @@
 #include <stdexcept>
 #include <utility>
 
+namespace
+{
+	float solveEccentricAnomaly(float meanAnomaly, float eccentricity)
+	{
+		float eccentricAnomaly = meanAnomaly;
+
+		for (int iteration = 0; iteration < 8; ++iteration)
+		{
+			const float correction = (
+				eccentricAnomaly - eccentricity * std::sin(eccentricAnomaly)
+				- meanAnomaly
+			) / (1.0f - eccentricity * std::cos(eccentricAnomaly));
+			eccentricAnomaly -= correction;
+		}
+
+		return eccentricAnomaly;
+	}
+
+	glm::mat4 orbitOrientation(const MoonDefinition& definition)
+	{
+		glm::mat4 orientation(1.0f);
+		orientation = glm::rotate(
+			orientation,
+			glm::radians(-definition.longitudeOfAscendingNode),
+			glm::vec3(0.0f, 1.0f, 0.0f)
+		);
+		orientation = glm::rotate(
+			orientation,
+			glm::radians(-definition.orbitInclination),
+			glm::vec3(1.0f, 0.0f, 0.0f)
+		);
+		return glm::rotate(
+			orientation,
+			glm::radians(-definition.argumentOfPeriapsis),
+			glm::vec3(0.0f, 1.0f, 0.0f)
+		);
+	}
+}
+
 Moon::Moon(MoonDefinition definition)
 	: definition_(std::move(definition))
 {
@@ -28,6 +67,8 @@ Moon::Moon(MoonDefinition definition)
 			"Uydu yorunge eksantrikligi 0 ile 1 arasinda olmalidir."
 		);
 	}
+
+	orbitAngle_ = definition_.meanAnomalyAtEpoch;
 }
 
 void Moon::update(float deltaTime)
@@ -43,35 +84,41 @@ void Moon::update(float deltaTime)
 	);
 }
 
+void Moon::setOrbitElements(
+	float longitudeOfAscendingNode,
+	float argumentOfPeriapsis,
+	float meanAnomalyAtEpoch)
+{
+	definition_.longitudeOfAscendingNode = longitudeOfAscendingNode;
+	definition_.argumentOfPeriapsis = argumentOfPeriapsis;
+	definition_.meanAnomalyAtEpoch = meanAnomalyAtEpoch;
+	orbitAngle_ = meanAnomalyAtEpoch;
+}
+
 glm::mat4 Moon::modelMatrix(const glm::vec3& parentPosition) const
 {
-	const float orbitAngleRadians = glm::radians(orbitAngle_);
+	const float meanAnomaly = glm::radians(orbitAngle_);
+	const float eccentricAnomaly = solveEccentricAnomaly(
+		meanAnomaly,
+		definition_.orbitEccentricity
+	);
 	const float semiMinorAxis = definition_.orbitRadius * std::sqrt(
 		1.0f - definition_.orbitEccentricity * definition_.orbitEccentricity
 	);
 
 	const glm::vec3 orbitPosition(
 		definition_.orbitRadius * (
-			std::cos(orbitAngleRadians) - definition_.orbitEccentricity
+			std::cos(eccentricAnomaly) - definition_.orbitEccentricity
 		),
 		0.0f,
-		semiMinorAxis * std::sin(orbitAngleRadians)
+		semiMinorAxis * std::sin(eccentricAnomaly)
 	);
 
 	glm::mat4 model(1.0f);
 
 	model = glm::translate(model, parentPosition);
-
-	model = glm::rotate(
-		model,
-		glm::radians(definition_.orbitInclination),
-		glm::vec3(0.0f, 0.0f, 1.0f)
-	);
-
-	model = glm::translate(
-		model,
-		orbitPosition
-	);
+	model *= orbitOrientation(definition_);
+	model = glm::translate(model, orbitPosition);
 
 	model = glm::rotate(
 		model,
@@ -98,12 +145,7 @@ glm::mat4 Moon::orbitPathModelMatrix(
 	glm::mat4 model(1.0f);
 
 	model = glm::translate(model, parentPosition);
-
-	model = glm::rotate(
-		model,
-		glm::radians(definition_.orbitInclination),
-		glm::vec3(0.0f, 0.0f, 1.0f)
-	);
+	model *= orbitOrientation(definition_);
 
 	model = glm::translate(
 		model,

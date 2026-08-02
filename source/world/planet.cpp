@@ -6,6 +6,45 @@
 #include <stdexcept>
 #include <utility>
 
+namespace
+{
+	float solveEccentricAnomaly(float meanAnomaly, float eccentricity)
+	{
+		float eccentricAnomaly = meanAnomaly;
+
+		for (int iteration = 0; iteration < 8; ++iteration)
+		{
+			const float correction = (
+				eccentricAnomaly - eccentricity * std::sin(eccentricAnomaly)
+				- meanAnomaly
+			) / (1.0f - eccentricity * std::cos(eccentricAnomaly));
+			eccentricAnomaly -= correction;
+		}
+
+		return eccentricAnomaly;
+	}
+
+	glm::mat4 orbitOrientation(const PlanetDefinition& definition)
+	{
+		glm::mat4 orientation(1.0f);
+		orientation = glm::rotate(
+			orientation,
+			glm::radians(-definition.longitudeOfAscendingNode),
+			glm::vec3(0.0f, 1.0f, 0.0f)
+		);
+		orientation = glm::rotate(
+			orientation,
+			glm::radians(-definition.orbitInclination),
+			glm::vec3(1.0f, 0.0f, 0.0f)
+		);
+		return glm::rotate(
+			orientation,
+			glm::radians(-definition.argumentOfPeriapsis),
+			glm::vec3(0.0f, 1.0f, 0.0f)
+		);
+	}
+}
+
 Planet::Planet(PlanetDefinition definition)
 	: definition_(std::move(definition))
 {
@@ -31,6 +70,8 @@ Planet::Planet(PlanetDefinition definition)
 			"Yorunge eksantrikligi 0 ile 1 arasinda olmalidir."
 		);
 	}
+
+	orbitAngle_ = definition_.meanAnomalyAtEpoch;
 }
 
 void Planet::update(float deltaTime)
@@ -80,6 +121,17 @@ const glm::vec3& Planet::baseColor() const
 	return definition_.baseColor;
 }
 
+void Planet::setOrbitElements(
+	float longitudeOfAscendingNode,
+	float argumentOfPeriapsis,
+	float meanAnomalyAtEpoch)
+{
+	definition_.longitudeOfAscendingNode = longitudeOfAscendingNode;
+	definition_.argumentOfPeriapsis = argumentOfPeriapsis;
+	definition_.meanAnomalyAtEpoch = meanAnomalyAtEpoch;
+	orbitAngle_ = meanAnomalyAtEpoch;
+}
+
 float Planet::radius() const
 {
 	return definition_.radius;
@@ -93,6 +145,11 @@ glm::vec3 Planet::position() const
 float Planet::orbitRadius() const
 {
 	return definition_.orbitRadius;
+}
+
+float Planet::orbitSpeed() const
+{
+	return definition_.orbitSpeed;
 }
 
 bool Planet::emitsLight() const
@@ -136,13 +193,7 @@ glm::mat4 Planet::orbitPathModelMatrix() const
 		1.0f - definition_.orbitEccentricity * definition_.orbitEccentricity
 	);
 
-	glm::mat4 model(1.0f);
-
-	model = glm::rotate(
-		model,
-		glm::radians(definition_.orbitInclination),
-		glm::vec3(0.0f, 0.0f, 1.0f)
-	);
+	glm::mat4 model = orbitOrientation(definition_);
 
 	model = glm::translate(
 		model,
@@ -166,31 +217,22 @@ const glm::vec3& Planet::ringColor() const
 
 glm::mat4 Planet::orbitalTransform() const
 {
-	const float orbitAngleRadians = glm::radians(orbitAngle_);
+	const float meanAnomaly = glm::radians(orbitAngle_);
+	const float eccentricAnomaly = solveEccentricAnomaly(
+		meanAnomaly,
+		definition_.orbitEccentricity
+	);
 	const float semiMinorAxis = definition_.orbitRadius * std::sqrt(
 		1.0f - definition_.orbitEccentricity * definition_.orbitEccentricity
 	);
 
 	const glm::vec3 orbitPosition(
 		definition_.orbitRadius * (
-			std::cos(orbitAngleRadians) - definition_.orbitEccentricity
+			std::cos(eccentricAnomaly) - definition_.orbitEccentricity
 		),
 		0.0f,
-		semiMinorAxis * std::sin(orbitAngleRadians)
+		semiMinorAxis * std::sin(eccentricAnomaly)
 	);
 
-	glm::mat4 model(1.0f);
-
-	model = glm::rotate(
-		model,
-		glm::radians(definition_.orbitInclination),
-		glm::vec3(0.0f, 0.0f, 1.0f)
-	);
-
-	model = glm::translate(
-		model,
-		orbitPosition
-	);
-
-	return model;
+	return glm::translate(orbitOrientation(definition_), orbitPosition);
 }

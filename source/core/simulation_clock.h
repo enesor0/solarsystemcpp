@@ -3,7 +3,8 @@
 class SimulationClock
 {
 public:
-	float advance(float frameDeltaTime) const;
+	float advance(float frameDeltaTime);
+	float elapsedDays() const;
 
 	void togglePause();
 	void increaseSpeed();
@@ -15,7 +16,9 @@ public:
 private:
 	bool paused_ = false;
 	float timeScale_ = 1.0f;
+	float elapsedDays_ = 0.0f;
 
+	static constexpr float simulationDaysPerSecond_ = 1.0f;
 	static constexpr float minTimeScale_ = 0.25f;
 	static constexpr float maxTimeScale_ = 16.0f;
 	static constexpr float speedStep_ = 2.0f;

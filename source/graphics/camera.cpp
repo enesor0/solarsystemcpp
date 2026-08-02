@@ -89,18 +89,69 @@ void Camera::setPose(
 	updateCameraVectors();
 }
 
-void Camera::focusOn(const glm::vec3& target, float distance)
+bool Camera::transitionToPose(
+	const glm::vec3& position,
+	const glm::vec3& up,
+	float yaw,
+	float pitch,
+	float deltaTime)
 {
-	position_ = target + glm::vec3(
-		distance * 0.65f,
-		distance * 0.30f,
-		distance
+	const float positionFactor = 1.0f - std::exp(-3.6f * deltaTime);
+	const float directionFactor = 1.0f - std::exp(-5.2f * deltaTime);
+	const float yawRadians = glm::radians(yaw);
+	const float pitchRadians = glm::radians(pitch);
+	const glm::vec3 desiredDirection(
+		std::cos(yawRadians) * std::cos(pitchRadians),
+		std::sin(pitchRadians),
+		std::sin(yawRadians) * std::cos(pitchRadians)
 	);
 
-	const glm::vec3 direction = glm::normalize(target - position_);
+	position_ = glm::mix(position_, position, positionFactor);
+	worldUp_ = glm::normalize(glm::mix(worldUp_, up, directionFactor));
+	const glm::vec3 smoothedDirection = glm::normalize(
+		glm::mix(front_, desiredDirection, directionFactor)
+	);
+	yaw_ = glm::degrees(std::atan2(
+		smoothedDirection.z,
+		smoothedDirection.x
+	));
+	pitch_ = glm::degrees(std::asin(smoothedDirection.y));
+	updateCameraVectors();
 
-	yaw_ = glm::degrees(std::atan2(direction.z, direction.x));
-	pitch_ = glm::degrees(std::asin(direction.y));
+	return glm::length(position_ - position) < 0.02f
+		&& glm::dot(front_, desiredDirection) > 0.9995f;
+}
+
+void Camera::followOrbitTarget(
+	const glm::vec3& target,
+	float distance,
+	float azimuth,
+	float elevation,
+	float deltaTime)
+{
+	const float azimuthRadians = glm::radians(azimuth);
+	const float elevationRadians = glm::radians(elevation);
+	const float orbitDistance = distance * 1.22f;
+	const glm::vec3 orbitOffset(
+		orbitDistance * std::cos(elevationRadians) * std::sin(azimuthRadians),
+		orbitDistance * std::sin(elevationRadians),
+		orbitDistance * std::cos(elevationRadians) * std::cos(azimuthRadians)
+	);
+	const glm::vec3 desiredPosition = target + orbitOffset;
+	const float positionFactor = 1.0f - std::exp(-5.5f * deltaTime);
+
+	position_ = glm::mix(position_, desiredPosition, positionFactor);
+
+	const glm::vec3 targetDirection = glm::normalize(target - position_);
+	const glm::vec3 smoothedDirection = glm::normalize(
+		glm::mix(front_, targetDirection, positionFactor)
+	);
+
+	yaw_ = glm::degrees(std::atan2(
+		smoothedDirection.z,
+		smoothedDirection.x
+	));
+	pitch_ = glm::degrees(std::asin(smoothedDirection.y));
 
 	updateCameraVectors();
 }

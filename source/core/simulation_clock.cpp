@@ -2,14 +2,23 @@
 
 #include <algorithm>
 
-float SimulationClock::advance(float frameDeltaTime) const
+float SimulationClock::advance(float frameDeltaTime)
 {
 	if (paused_)
 	{
 		return 0.0f;
 	}
 
-	return frameDeltaTime * timeScale_;
+	const float elapsedDays = frameDeltaTime
+		* timeScale_
+		* simulationDaysPerSecond_;
+	elapsedDays_ += elapsedDays;
+	return elapsedDays;
+}
+
+float SimulationClock::elapsedDays() const
+{
+	return elapsedDays_;
 }
 
 void SimulationClock::togglePause()

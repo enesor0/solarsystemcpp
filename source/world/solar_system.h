@@ -2,6 +2,7 @@
 
 #include "world/moon.h"
 #include "world/planet.h"
+#include "world/space_station.h"
 
 #include <vector>
 
@@ -14,8 +15,10 @@ public:
 
 	const std::vector<Planet>& planets() const;
 	const std::vector<Moon>& moons() const;
+	const std::vector<SpaceStation>& spaceStations() const;
 
 private:
 	std::vector<Planet> planets_;
 	std::vector<Moon> moons_;
+	std::vector<SpaceStation> spaceStations_;
 };

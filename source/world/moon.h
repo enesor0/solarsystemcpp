@@ -19,6 +19,9 @@ struct MoonDefinition
 	float orbitEccentricity = 0.0f;
 
 	glm::vec3 baseColor = glm::vec3(1.0f);
+	float longitudeOfAscendingNode = 0.0f;
+	float argumentOfPeriapsis = 0.0f;
+	float meanAnomalyAtEpoch = 0.0f;
 };
 
 class Moon
@@ -27,6 +30,11 @@ public:
 	explicit Moon(MoonDefinition definition);
 
 	void update(float deltaTime);
+	void setOrbitElements(
+		float longitudeOfAscendingNode,
+		float argumentOfPeriapsis,
+		float meanAnomalyAtEpoch
+	);
 
 	glm::mat4 modelMatrix(const glm::vec3& parentPosition) const;
 	glm::mat4 orbitPathModelMatrix(const glm::vec3& parentPosition) const;

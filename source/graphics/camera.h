@@ -32,7 +32,20 @@ public:
 		float yaw,
 		float pitch
 	);
-	void focusOn(const glm::vec3& target, float distance);
+	bool transitionToPose(
+		const glm::vec3& position,
+		const glm::vec3& up,
+		float yaw,
+		float pitch,
+		float deltaTime
+	);
+	void followOrbitTarget(
+		const glm::vec3& target,
+		float distance,
+		float azimuth,
+		float elevation,
+		float deltaTime
+	);
 
 	const glm::vec3& position() const;
 
