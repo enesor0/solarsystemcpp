@@ -19,6 +19,8 @@ public:
 	void setVec3(
 		const std::string& uniformName, const glm::vec3& value
 	) const;
+	void setFloat(const std::string& uniformName, float value) const;
+	void setInt(const std::string& uniformName, int value) const;
 
 private:
 	unsigned int programId_ = 0;

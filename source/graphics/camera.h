@@ -26,6 +26,13 @@ public:
 
 	void move(CameraDirection direction, float deltaTime);
 	void rotate(float xOffset, float yOffset);
+	void setPose(
+		const glm::vec3& position,
+		const glm::vec3& up,
+		float yaw,
+		float pitch
+	);
+	void focusOn(const glm::vec3& target, float distance);
 
 	const glm::vec3& position() const;
 

@@ -75,6 +75,36 @@ void Camera::rotate(float xOffset, float yOffset)
 	updateCameraVectors();
 }
 
+void Camera::setPose(
+	const glm::vec3& position,
+	const glm::vec3& up,
+	float yaw,
+	float pitch)
+{
+	position_ = position;
+	worldUp_ = up;
+	yaw_ = yaw;
+	pitch_ = pitch;
+
+	updateCameraVectors();
+}
+
+void Camera::focusOn(const glm::vec3& target, float distance)
+{
+	position_ = target + glm::vec3(
+		distance * 0.65f,
+		distance * 0.30f,
+		distance
+	);
+
+	const glm::vec3 direction = glm::normalize(target - position_);
+
+	yaw_ = glm::degrees(std::atan2(direction.z, direction.x));
+	pitch_ = glm::degrees(std::asin(direction.y));
+
+	updateCameraVectors();
+}
+
 const glm::vec3& Camera::position() const
 {
 	return position_;

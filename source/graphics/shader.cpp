@@ -109,6 +109,32 @@ void Shader::setVec3(
 	}
 }
 
+void Shader::setFloat(const std::string& uniformName, float value) const
+{
+	const int location = glGetUniformLocation(
+		programId_,
+		uniformName.c_str()
+	);
+
+	if (location != -1)
+	{
+		glUniform1f(location, value);
+	}
+}
+
+void Shader::setInt(const std::string& uniformName, int value) const
+{
+	const int location = glGetUniformLocation(
+		programId_,
+		uniformName.c_str()
+	);
+
+	if (location != -1)
+	{
+		glUniform1i(location, value);
+	}
+}
+
 std::string Shader::readTextFile(const std::string& path)
 {
 	std::ifstream file(path);
