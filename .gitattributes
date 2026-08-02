@@ -1,2 +1,26 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Normalize text files consistently across platforms.
+* text=auto eol=lf
+
+# Visual Studio project metadata is conventionally stored with CRLF.
+*.sln text eol=crlf
+*.vcxproj text eol=crlf
+*.vcxproj.filters text eol=crlf
+*.bat text eol=crlf
+
+# Source, build configuration and shader files are plain text.
+*.cpp text
+*.h text
+*.cmake text
+CMakeLists.txt text
+*.vert text
+*.frag text
+*.md text
+
+# Assets should not be line-ending normalized or diffed as text.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.bmp binary
+*.tga binary
+*.obj binary
+*.ttf binary
