@@ -1,21 +1,36 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 #include <vector>
 
-class mesh
+struct Vertex
+{
+	glm::vec3 position;
+	glm::vec3 normal;
+	glm::vec2 textureCoords;
+};
+
+struct MeshData
+{
+	std::vector<Vertex> vertices;
+	std::vector<unsigned int> indices;
+};
+
+class Mesh
 {
 public:
-	explicit mesh(const std::vector<float>& positions);
-	~mesh();
+	explicit Mesh(const MeshData& meshData);
+	~Mesh();
 
-	mesh(const mesh&) = delete;
-	mesh& operator=(const mesh&) = delete;
+	Mesh(const Mesh&) = delete;
+	Mesh& operator=(const Mesh&) = delete;
 
 	void draw() const;
-
 
 private:
 	unsigned int vao_ = 0;
 	unsigned int vbo_ = 0;
-	int vertexCount_ = 0;
+	unsigned int ebo_ = 0;
+	int indexCount_ = 0;
 };

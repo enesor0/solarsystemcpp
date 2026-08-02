@@ -16,8 +16,12 @@ find_package(glm CONFIG REQUIRED)
 
 add_executable(SolarSystem
     source/main.cpp
-    source/graphics/Shader.cpp
-    source/graphics/Mesh.cpp
+    source/graphics/shader.cpp
+    source/graphics/mesh.cpp
+    source/graphics/camera.cpp
+    source/graphics/sphere.cpp
+    source/world/planet.cpp
+    source/world/solar_system.cpp
 )
 
 target_include_directories(SolarSystem PRIVATE

@@ -1,14 +1,17 @@
 #include "graphics/shader.h"
+
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
+
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
-
-shader::shader(const std::string& vertexPath, const std::string& fragmentPath)
+Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
 {
-	const unsigned int vertexShader = compile
-	(GL_VERTEX_SHADER,
-		readTextFile(vertexPath));
+	const unsigned int vertexShader = compile(
+		GL_VERTEX_SHADER,
+		readTextFile(vertexPath)
+	);
 
 	unsigned int fragmentShader = 0;
 
@@ -19,21 +22,21 @@ shader::shader(const std::string& vertexPath, const std::string& fragmentPath)
 			readTextFile(fragmentPath)
 		);
 
-		programID_ = glCreateProgram();
+		programId_ = glCreateProgram();
 
-		glAttachShader(programID_, vertexShader);
-		glAttachShader(programID_, fragmentShader);
-		glLinkProgram(programID_);
+		glAttachShader(programId_, vertexShader);
+		glAttachShader(programId_, fragmentShader);
+		glLinkProgram(programId_);
 		int success = 0;
-		glGetProgramiv(programID_, GL_LINK_STATUS, &success);
+		glGetProgramiv(programId_, GL_LINK_STATUS, &success);
 
 		if (success == GL_FALSE)
 		{
 			char log[512];
-			glGetProgramInfoLog(programID_, sizeof(log), nullptr, log);
+			glGetProgramInfoLog(programId_, sizeof(log), nullptr, log);
 
-			glDeleteProgram(programID_);
-			programID_ = 0;
+			glDeleteProgram(programId_);
+			programId_ = 0;
 
 			throw std::runtime_error("Shader link hatasi: " + std::string(log));
 		}
@@ -41,7 +44,8 @@ shader::shader(const std::string& vertexPath, const std::string& fragmentPath)
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
 	}
-	catch (...) {
+	catch (...)
+	{
 
 		glDeleteShader(vertexShader);
 
@@ -50,24 +54,62 @@ shader::shader(const std::string& vertexPath, const std::string& fragmentPath)
 			glDeleteShader(fragmentShader);
 		}
 		throw;
-
 	}
 }
 
-	shader::~shader()	
+Shader::~Shader()
 {
-    if (programID_ != 0)
-    {
-        glDeleteProgram(programID_);
-    }
+	if (programId_ != 0)
+	{
+		glDeleteProgram(programId_);
+	}
 }
 
-void shader::use() const
+void Shader::use() const
 {
-	glUseProgram(programID_);
+	glUseProgram(programId_);
 }
 
-std::string shader::readTextFile(const std::string& path)
+void Shader::setMat4(
+	const std::string& uniformName,
+	const glm::mat4& matrix) const
+{
+	const int location = glGetUniformLocation(
+		programId_,
+		uniformName.c_str()
+	);
+
+	if (location != -1)
+	{
+		glUniformMatrix4fv(
+			location,
+			1,
+			GL_FALSE,
+			glm::value_ptr(matrix)
+		);
+	}
+}
+
+void Shader::setVec3(
+	const std::string& uniformName,
+	const glm::vec3& value) const
+{
+	const int location = glGetUniformLocation(
+		programId_,
+		uniformName.c_str()
+	);
+
+	if (location != -1)
+	{
+		glUniform3fv(
+			location,
+			1,
+			glm::value_ptr(value)
+		);
+	}
+}
+
+std::string Shader::readTextFile(const std::string& path)
 {
 	std::ifstream file(path);
 
@@ -82,7 +124,7 @@ std::string shader::readTextFile(const std::string& path)
 	return content.str();
 }
 
-unsigned int shader::compile(
+unsigned int Shader::compile(
 	unsigned int shaderType,
 	const std::string& source)
 {

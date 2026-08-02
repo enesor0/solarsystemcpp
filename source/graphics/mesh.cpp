@@ -1,30 +1,42 @@
-#include "graphics/Mesh.h"
+#include "graphics/mesh.h"
 
 #include <glad/glad.h>
 
+#include <cstddef>
 #include <stdexcept>
 
-mesh::mesh(const std::vector<float>& positions)
+Mesh::Mesh(const MeshData& meshData)
 {
-	if (positions.empty() || positions.size() % 3 != 0)
+	if (meshData.vertices.empty() || meshData.indices.empty())
 	{
 		throw std::runtime_error(
-			"Mesh konum verisi 3'erli koordinatlardan olusmalidir."
+			"Mesh icin vertex ve index verisi gereklidir."
 		);
 	}
 
-	vertexCount_ = static_cast<int>(positions.size() / 3);
+	indexCount_ = static_cast<int>(meshData.indices.size());
 
 	glGenVertexArrays(1, &vao_);
 	glGenBuffers(1, &vbo_);
+	glGenBuffers(1, &ebo_);
 
 	glBindVertexArray(vao_);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_);
 	glBufferData(
 		GL_ARRAY_BUFFER,
-		static_cast<GLsizeiptr>(positions.size() * sizeof(float)),
-		positions.data(),
+		static_cast<GLsizeiptr>(meshData.vertices.size() * sizeof(Vertex)),
+		meshData.vertices.data(),
+		GL_STATIC_DRAW
+	);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_);
+	glBufferData(
+		GL_ELEMENT_ARRAY_BUFFER,
+		static_cast<GLsizeiptr>(
+			meshData.indices.size() * sizeof(unsigned int)
+			),
+		meshData.indices.data(),
 		GL_STATIC_DRAW
 	);
 
@@ -33,18 +45,41 @@ mesh::mesh(const std::vector<float>& positions)
 		3,
 		GL_FLOAT,
 		GL_FALSE,
-		3 * sizeof(float),
-		nullptr
+		sizeof(Vertex),
+		reinterpret_cast<const void*>(offsetof(Vertex, position))
 	);
-
 	glEnableVertexAttribArray(0);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glVertexAttribPointer(
+		1,
+		3,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(Vertex),
+		reinterpret_cast<const void*>(offsetof(Vertex, normal))
+	);
+	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(
+		2,
+		2,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(Vertex),
+		reinterpret_cast<const void*>(offsetof(Vertex, textureCoords))
+	);
+	glEnableVertexAttribArray(2);
+
 	glBindVertexArray(0);
 }
 
-mesh::~mesh()
+Mesh::~Mesh()
 {
+	if (ebo_ != 0)
+	{
+		glDeleteBuffers(1, &ebo_);
+	}
+
 	if (vbo_ != 0)
 	{
 		glDeleteBuffers(1, &vbo_);
@@ -56,9 +91,16 @@ mesh::~mesh()
 	}
 }
 
-void mesh::draw() const
+void Mesh::draw() const
 {
 	glBindVertexArray(vao_);
-	glDrawArrays(GL_TRIANGLES, 0, vertexCount_);
+
+	glDrawElements(
+		GL_TRIANGLES,
+		indexCount_,
+		GL_UNSIGNED_INT,
+		nullptr
+	);
+
 	glBindVertexArray(0);
 }

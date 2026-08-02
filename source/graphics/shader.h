@@ -1,23 +1,28 @@
 #pragma once
 
-#include <iostream>
+#include <glm/glm.hpp>
 
-class shader
+#include <string>
+
+class Shader
 {
 public:
-	shader(const std::string& vertexPath, const std::string& fragmentPath);
-	~shader();
-    
-	shader(const shader&) = delete;
-	shader& operator=(const shader&) = delete;
+	Shader(const std::string& vertexPath, const std::string& fragmentPath);
+	~Shader();
+
+	Shader(const Shader&) = delete;
+	Shader& operator=(const Shader&) = delete;
 
 	void use() const;
+	void setMat4(const std::string& uniformName, const glm::mat4& value) const;
 
+	void setVec3(
+		const std::string& uniformName, const glm::vec3& value
+	) const;
 
 private:
-	unsigned int programID_ = 0;
+	unsigned int programId_ = 0;
 
 	static std::string readTextFile(const std::string& filePath);
-	static unsigned int compile(unsigned int ShaderType, const std::string& source);
-
+	static unsigned int compile(unsigned int shaderType, const std::string& source);
 };

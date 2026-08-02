@@ -19,7 +19,7 @@ Bu proje ile aşağıdaki temel grafik programlama kavramları uygulanır:
 - OpenGL 3.3 Core pencere altyapısı hazır.
 - `Shader` sınıfı shader dosyalarını yükler, derler ve bağlar.
 - `Mesh` sınıfı vertex verisini GPU kaynaklarıyla yönetir.
-- Temel GLSL shader'ları ve turuncu üçgen çizim hattı çalışır.
+- Temel GLSL shader'ları, 3D kamera ve ilk Güneş küresi çalışır.
 
 ## Mimari
 
@@ -51,7 +51,11 @@ source/
 │   ├── Mesh.h
 │   ├── Mesh.cpp
 │   ├── Shader.h
-│   └── Shader.cpp
+│   ├── Shader.cpp
+│   ├── Sphere.h
+│   ├── Sphere.cpp
+│   ├── Camera.h
+│   └── Camera.cpp
 └── world/               # Planet ve SolarSystem sınıfları
 
 shaders/
