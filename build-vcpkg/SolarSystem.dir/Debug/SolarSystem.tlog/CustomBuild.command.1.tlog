@@ -1,0 +1,10 @@
+^C:\USERS\ENESO\SOURCE\SOLARSYSTEMCPP\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/eneso/source/solarsystemcpp -BC:/Users/eneso/source/solarsystemcpp/build-vcpkg --check-stamp-file C:/Users/eneso/source/solarsystemcpp/build-vcpkg/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,10 @@
+^C:\USERS\ENESO\SOURCE\SOLARSYSTEMCPP\BUILD-VCPKG\CMAKEFILES\D6C8AE16635165732E0017DF192B9E02\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/eneso/source/solarsystemcpp -BC:/Users/eneso/source/solarsystemcpp/build-vcpkg --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/eneso/source/solarsystemcpp/build-vcpkg/SolarSystemCpp.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,3 @@
+C:/Users/eneso/source/solarsystemcpp/build-vcpkg/CMakeFiles/SolarSystem.dir
+C:/Users/eneso/source/solarsystemcpp/build-vcpkg/CMakeFiles/ALL_BUILD.dir
+C:/Users/eneso/source/solarsystemcpp/build-vcpkg/CMakeFiles/ZERO_CHECK.dir
