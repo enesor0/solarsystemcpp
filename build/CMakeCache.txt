@@ -209,6 +209,9 @@ Project_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 Project_SOURCE_DIR:STATIC=C:/Users/eneso/source/solarsystemcpp
 
+//Path to a file.
+STB_INCLUDE_DIR:PATH=C:/Users/eneso/source/library/vcpkg/installed/x64-windows/include
+
 //Value Computed by CMake
 SolarSystemCpp_BINARY_DIR:STATIC=C:/Users/eneso/source/solarsystemcpp/build
 

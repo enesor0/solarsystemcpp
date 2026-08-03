@@ -127,7 +127,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <PostBuildEvent>
-      <Message>		</Message>
+      <Message>			</Message>
       <Command>setlocal
 C:\Users\eneso\source\library\vcpkg\vcpkg.exe z-applocal --target-binary=C:/Users/eneso/source/solarsystemcpp/build/Debug/SolarSystem.exe --installed-bin-dir=C:/Users/eneso/source/library/vcpkg/installed/x64-windows/debug/bin
 if %errorlevel% neq 0 goto :cmEnd
@@ -148,6 +148,15 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd
 setlocal
 "C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Users/eneso/source/library/vcpkg/installed/x64-windows/debug/bin/glfw3.dll C:/Users/eneso/source/solarsystemcpp/build/Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory C:/Users/eneso/source/solarsystemcpp/assets C:/Users/eneso/source/solarsystemcpp/build/Debug/assets
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -217,7 +226,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <PostBuildEvent>
-      <Message>		</Message>
+      <Message>			</Message>
       <Command>setlocal
 C:\Users\eneso\source\library\vcpkg\vcpkg.exe z-applocal --target-binary=C:/Users/eneso/source/solarsystemcpp/build/Release/SolarSystem.exe --installed-bin-dir=C:/Users/eneso/source/library/vcpkg/installed/x64-windows/bin
 if %errorlevel% neq 0 goto :cmEnd
@@ -238,6 +247,15 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd
 setlocal
 "C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Users/eneso/source/library/vcpkg/installed/x64-windows/debug/bin/glfw3.dll C:/Users/eneso/source/solarsystemcpp/build/Release
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory C:/Users/eneso/source/solarsystemcpp/assets C:/Users/eneso/source/solarsystemcpp/build/Release/assets
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -307,7 +325,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <PostBuildEvent>
-      <Message>		</Message>
+      <Message>			</Message>
       <Command>setlocal
 C:\Users\eneso\source\library\vcpkg\vcpkg.exe z-applocal --target-binary=C:/Users/eneso/source/solarsystemcpp/build/MinSizeRel/SolarSystem.exe --installed-bin-dir=C:/Users/eneso/source/library/vcpkg/installed/x64-windows/bin
 if %errorlevel% neq 0 goto :cmEnd
@@ -328,6 +346,15 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd
 setlocal
 "C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Users/eneso/source/library/vcpkg/installed/x64-windows/debug/bin/glfw3.dll C:/Users/eneso/source/solarsystemcpp/build/MinSizeRel
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory C:/Users/eneso/source/solarsystemcpp/assets C:/Users/eneso/source/solarsystemcpp/build/MinSizeRel/assets
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -396,7 +423,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <PostBuildEvent>
-      <Message>		</Message>
+      <Message>			</Message>
       <Command>setlocal
 C:\Users\eneso\source\library\vcpkg\vcpkg.exe z-applocal --target-binary=C:/Users/eneso/source/solarsystemcpp/build/RelWithDebInfo/SolarSystem.exe --installed-bin-dir=C:/Users/eneso/source/library/vcpkg/installed/x64-windows/bin
 if %errorlevel% neq 0 goto :cmEnd
@@ -417,6 +444,15 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd
 setlocal
 "C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Users/eneso/source/library/vcpkg/installed/x64-windows/debug/bin/glfw3.dll C:/Users/eneso/source/solarsystemcpp/build/RelWithDebInfo
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory C:/Users/eneso/source/solarsystemcpp/assets C:/Users/eneso/source/solarsystemcpp/build/RelWithDebInfo/assets
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -502,8 +538,27 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\main.cpp" />
-    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\Shader.cpp" />
-    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\Mesh.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\core\simulation_clock.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\bloom.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\shader.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\mesh.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\camera.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\asteroid_belt.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\space_station_mesh.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\hud.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\orbit_path.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\orbit_trail.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\shadow_map.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\ring.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\starfield.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\sphere.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\texture.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\texture_library.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\world\planet.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\world\planet_facts.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\world\moon.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\world\space_station.cpp" />
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\world\solar_system.cpp" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

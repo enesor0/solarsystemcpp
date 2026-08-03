@@ -4,10 +4,67 @@
     <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\Shader.cpp">
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\core\simulation_clock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\Mesh.cpp">
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\bloom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\asteroid_belt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\space_station_mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\hud.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\orbit_path.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\orbit_trail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\shadow_map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\ring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\starfield.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\sphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\graphics\texture_library.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\world\planet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\world\planet_facts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\world\moon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\world\space_station.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\eneso\source\solarsystemcpp\source\world\solar_system.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -48,7 +48,7 @@ add_executable(SolarSystem
 
 target_include_directories(SolarSystem PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/source"
-    ${Stb_INCLUDE_DIR}
+    ${STB_INCLUDE_DIR}
 )
 
 target_link_libraries(SolarSystem PRIVATE
